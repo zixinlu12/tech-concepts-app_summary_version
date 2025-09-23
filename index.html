@@ -951,6 +951,10 @@
                 renderHybridFilters();
                 renderQuickAccess();
                 filterAndDisplay();
+            } else {
+                // 显示错误信息如果没有数据
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('conceptsContainer').innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-secondary);">No data available. Please check the console for errors.</div>';
             }
         }
         
@@ -986,7 +990,7 @@
                 }
                 
                 let esgData = [];
-                if (ESG_GIST_URL && ESG_GIST_URL !== 'YOUR_ESG_GIST_URL_HERE') {
+                if (ESG_GIST_URL) {
                     try {
                         const esgResponse = await fetch(ESG_GIST_URL);
                         if (esgResponse && esgResponse.ok) {
