@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simplified</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #22d3ee;
+            --primary-dark: #0ea5e9;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #2d3b4f;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+            --shadow-lg: 0 10px 25px -5px rgb(0 0 0 / 0.5);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #22d3ee, #3b82f6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--surface);
+            padding: 0.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .view-btn.active {
+            background: var(--background);
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Hero Search Section */
+        .hero {
+            padding: 3rem 1.5rem 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #f1f5f9 0%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Search Box */
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 3.5rem 1rem 1.25rem;
+            font-size: 1.125rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--background);
+            color: var(--text);
+            transition: all 0.2s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1);
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+        
+        /* Quick Access Tags */
+        .quick-access {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .quick-tag {
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-tag:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        /* New Hybrid Filter Section */
+        .filter-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+        }
+        
+        .filter-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Quick Category Buttons */
+        .quick-categories {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+        
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .category-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.125rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+        }
+        
+        /* More Categories Button */
+        .more-categories-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--surface-light);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .more-categories-btn:hover {
+            background: var(--background);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+        
+        .more-categories-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+        }
+        
+        .more-categories-btn.expanded svg {
+            transform: rotate(180deg);
+        }
+        
+        /* Category Panel (Hidden by default) */
+        .category-panel {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--background);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .category-panel.visible {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Domain Sections in Panel */
+        .domain-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .domain-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .domain-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .domain-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.5rem;
+        }
+        
+        .panel-category-btn {
+            padding: 0.5rem 0.75rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.813rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+        
+        .panel-category-btn:hover {
+            background: var(--surface-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .panel-category-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .panel-category-count {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        /* Grid View */
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .concept-card {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .concept-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+        
+        .concept-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .concept-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .concept-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.3;
+        }
+        
+        .concept-card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .concept-card-category {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            padding: 0.25rem 0.625rem;
+            background: var(--surface);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Results Info */
+        .results-info {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .results-count {
+            font-weight: 500;
+        }
+        
+        .clear-search {
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .clear-search:hover {
+            text-decoration: underline;
+        }
+        
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .no-results-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Combined Modal for both Quick View and Full Content */
+        .unified-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            padding: 1rem;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .unified-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .unified-modal-content {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .unified-modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .unified-modal-title-section {
+            flex: 1;
+        }
+        
+        .unified-modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .unified-modal-category {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .modal-close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: var(--surface);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .modal-close-btn:hover {
+            background: var(--border);
+        }
+        
+        .view-toggle-section {
+            padding: 1rem 1.5rem;
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .view-toggle-btn {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .view-toggle-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .unified-modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .summary-view {
+            display: block;
+        }
+        
+        .full-view {
+            display: none;
+        }
+        
+        .summary-view.hidden {
+            display: none;
+        }
+        
+        .full-view.visible {
+            display: block;
+        }
+        
+        .summary-content {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.05), rgba(59, 130, 246, 0.05));
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+        }
+        
+        .summary-label {
+            color: var(--primary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .summary-text {
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .view-toggle {
+                display: none;
+            }
+            
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .domain-categories {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-categories {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">S</div>
+                <span>Simplified</span>
+            </a>
+            <div class="view-toggle">
+                <button class="view-btn active" id="gridViewBtn">Grid</button>
+                <button class="view-btn" id="listViewBtn">List</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Complex Concepts Made Simple</h1>
+        <p class="hero-subtitle">From Any Industry, In Plain Language. Making Complex Knowledge Accessible to Everyone</p>
+        
+        <div class="search-container">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="Search for a concept (e.g., Leverage, Hedge Fund, API, Net Zero)"
+                autocomplete="off"
+            >
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </svg>
+        </div>
+        
+        <div class="quick-access" id="quickAccess">
+            <!-- Popular terms will be added dynamically -->
+        </div>
+    </section>
+    
+    <!-- New Hybrid Filter Section -->
+    <section class="filter-section">
+        <div class="filter-wrapper">
+            <div class="quick-categories" id="quickCategories">
+                <!-- Quick category buttons will be added here dynamically -->
+            </div>
+            
+            <!-- Expandable Category Panel -->
+            <div class="category-panel" id="categoryPanel">
+                <!-- Domain sections will be added here dynamically -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="results-info" id="resultsInfo" style="display: none;">
+            <span class="results-count" id="resultsCount"></span>
+            <a class="clear-search" id="clearSearch">Clear search</a>
+        </div>
+        
+        <!-- Grid View -->
+        <div class="concepts-grid" id="conceptsGrid">
+            <!-- Cards will be added dynamically -->
+        </div>
+        
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-title">No results found</div>
+            <p>Try different keywords</p>
+        </div>
+        
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </main>
+    
+    <!-- Unified Modal -->
+    <div class="unified-modal" id="unifiedModal">
+        <div class="unified-modal-content">
+            <div class="unified-modal-header">
+                <div class="unified-modal-title-section">
+                    <h2 class="unified-modal-title" id="unifiedModalTitle"></h2>
+                    <span class="unified-modal-category" id="unifiedModalCategory"></span>
+                </div>
+                <button class="modal-close-btn" id="unifiedModalClose">✕</button>
+            </div>
+            
+            <div class="view-toggle-section">
+                <button class="view-toggle-btn active" id="summaryViewBtn">Quick Summary</button>
+                <button class="view-toggle-btn" id="fullViewBtn">Full Explanation</button>
+            </div>
+            
+            <div class="unified-modal-body">
+                <!-- Summary View -->
+                <div class="summary-view" id="summaryView">
+                    <div class="summary-content">
+                        <div class="summary-label">Quick Summary</div>
+                        <div class="summary-text" id="summaryText"></div>
+                    </div>
+                </div>
+                
+                <!-- Full View -->
+                <div class="full-view" id="fullView"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Data source configuration
+        const TECH_GIST_URL = 'https://gist.githubusercontent.com/zixinlu12/5839233f20193118e11d034334f436e6/raw/cf4e792d56489882f70545c9920ae4cde4344f6c/tech_explanationsTLDR.json';
+        const FINANCE_GIST_URL = 'https://gist.githubusercontent.com/zixinlu12/90689308e2ee47ce6bea7a79625aaf41/raw/5b5e15f75ea2955a5e0ae308a28a5ee0cf2a805b/finance_explanations_TLDR.json';
+        const ESG_GIST_URL = 'https://gist.githubusercontent.com/zixinlu12/f359a911ccd38cdb620ae2d298b344ce/raw/90fb834ed41fe37373fb509440bdf261e28e9a4f/ESG_explanations.json';
+        
+        // State
+        let concepts = [];
+        let filteredConcepts = [];
+        let currentCategory = 'all';
+        let searchTerm = '';
+        let viewMode = 'grid';
+        let currentConcept = null;
+        let categoryPanelOpen = false;
+        
+        // Category configurations
+        const categoryConfig = {
+            all: { name: 'All Fields', gradient: 'linear-gradient(135deg, #667eea, #764ba2)', isQuick: true },
+            // Tech categories
+            infrastructure: { name: 'Infrastructure', gradient: 'linear-gradient(135deg, #667eea, #764ba2)', domain: 'tech' },
+            computing: { name: 'Computing', gradient: 'linear-gradient(135deg, #f093fb, #f5576c)', domain: 'tech' },
+            ai: { name: 'AI & Data', gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)', domain: 'tech', isQuick: true },
+            networking: { name: 'Networking', gradient: 'linear-gradient(135deg, #fa709a, #fee140)', domain: 'tech' },
+            development: { name: 'Development', gradient: 'linear-gradient(135deg, #30cfd0, #330867)', domain: 'tech' },
+            security: { name: 'Security', gradient: 'linear-gradient(135deg, #ff6b6b, #4ecdc4)', domain: 'tech' },
+            data: { name: 'Data', gradient: 'linear-gradient(135deg, #a8edea, #fed6e3)', domain: 'tech' },
+            // Finance categories
+            banking: { name: 'Banking', gradient: 'linear-gradient(135deg, #f2994a, #f2c94c)', domain: 'finance' },
+            investment: { name: 'Investment', gradient: 'linear-gradient(135deg, #89f7fe, #66a6ff)', domain: 'finance', isQuick: true },
+            trading: { name: 'Trading', gradient: 'linear-gradient(135deg, #fc6076, #ff9a44)', domain: 'finance', isQuick: true },
+            crypto: { name: 'Cryptocurrency', gradient: 'linear-gradient(135deg, #a17fe0, #5d26c1)', domain: 'finance' },
+            insurance: { name: 'Insurance', gradient: 'linear-gradient(135deg, #59c173, #a17fe0)', domain: 'finance' },
+            fintech: { name: 'Fintech', gradient: 'linear-gradient(135deg, #00cdac, #8ddad5)', domain: 'finance' },
+            // ESG categories
+            environmental: { name: 'Environmental', gradient: 'linear-gradient(135deg, #11998e, #38ef7d)', domain: 'esg' },
+            social: { name: 'Social', gradient: 'linear-gradient(135deg, #ee9ca7, #ffdde1)', domain: 'esg' },
+            governance: { name: 'Governance', gradient: 'linear-gradient(135deg, #667db6, #0082c8)', domain: 'esg' },
+            climate: { name: 'Climate', gradient: 'linear-gradient(135deg, #1e3c72, #2a5298)', domain: 'esg', isQuick: true },
+            sustainability: { name: 'Sustainability', gradient: 'linear-gradient(135deg, #76b852, #8DC26F)', domain: 'esg', isQuick: true }
+        };
+        
+        // Extract TL;DR from content
+        function extractTLDR(content) {
+            const tldrMatch = content.match(/## TL;DR\n(.+?)(\n\n---|\n\n##|$)/s);
+            if (tldrMatch) {
+                return tldrMatch[1].replace(/\*/g, '').trim();
+            }
+            return content.substring(0, 200).replace(/[#*\n]/g, ' ').trim() + '...';
+        }
+        
+        // Initialize
+        async function init() {
+            await loadConcepts();
+            setupEventListeners();
+            if (concepts && concepts.length > 0) {
+                renderHybridFilters();
+                renderQuickAccess();
+                filterAndDisplay();
+            }
+        }
+        
+        // Load concepts
+        async function loadConcepts() {
+            try {
+                console.log('Loading concepts...');
+                
+                let techData = [];
+                if (TECH_GIST_URL) {
+                    try {
+                        const techResponse = await fetch(TECH_GIST_URL);
+                        if (techResponse && techResponse.ok) {
+                            techData = await techResponse.json();
+                            console.log(`Loaded ${techData.length} tech concepts`);
+                        }
+                    } catch (error) {
+                        console.log('Tech data not available:', error.message);
+                    }
+                }
+                
+                let financeData = [];
+                if (FINANCE_GIST_URL) {
+                    try {
+                        const financeResponse = await fetch(FINANCE_GIST_URL);
+                        if (financeResponse && financeResponse.ok) {
+                            financeData = await financeResponse.json();
+                            console.log(`Loaded ${financeData.length} finance concepts`);
+                        }
+                    } catch (error) {
+                        console.log('Finance data not available:', error.message);
+                    }
+                }
+                
+                let esgData = [];
+                if (ESG_GIST_URL && ESG_GIST_URL !== 'YOUR_ESG_GIST_URL_HERE') {
+                    try {
+                        const esgResponse = await fetch(ESG_GIST_URL);
+                        if (esgResponse && esgResponse.ok) {
+                            esgData = await esgResponse.json();
+                            console.log(`Loaded ${esgData.length} ESG concepts`);
+                        }
+                    } catch (error) {
+                        console.log('ESG data not available:', error.message);
+                    }
+                }
+                
+                const allData = [
+                    ...techData.map(item => ({...item, domain: 'tech'})),
+                    ...financeData.map(item => ({...item, domain: 'finance'})),
+                    ...esgData.map(item => ({...item, domain: 'esg'}))
+                ];
+                
+                if (allData.length === 0) {
+                    throw new Error('No valid data found');
+                }
+                
+                concepts = processConceptsData(allData);
+                console.log(`Total processed concepts: ${concepts.length}`);
+                document.getElementById('loading').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading concepts:', error);
+                document.getElementById('loading').innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <p style="color: var(--text-secondary); font-size: 1.125rem;">Failed to load data</p>
+                        <p style="color: var(--text-secondary); margin-top: 1rem;">Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Process concepts data
+        function processConceptsData(data) {
+            const popularityScores = {
+                'cloud': 100,
+                'cloud computing': 100,
+                'ai': 95,
+                'artificial intelligence': 95,
+                'machine learning': 90,
+                'gpu': 85,
+                'cpu': 85,
+                'api': 80,
+                'database': 75,
+                'leverage': 80,
+                'hedge fund': 75,
+                'derivatives': 70,
+                'short selling': 75,
+                'margin': 70,
+                'liquidity': 65,
+                'net zero': 90,
+                'carbon neutral': 85,
+                'sustainability': 88,
+                'esg': 92,
+                'paris agreement': 80,
+                'greenhouse gas': 75,
+                'scope 1': 70,
+                'scope 2': 70,
+                'scope 3': 72
+            };
+            
+            return data.map(item => {
+                const name = item.concept.toLowerCase();
+                const domain = item.domain || 'tech';
+                let category = 'infrastructure';
+                
+                if (domain === 'esg') {
+                    if (name.includes('carbon') || name.includes('emission') || name.includes('climate') || 
+                        name.includes('greenhouse') || name.includes('net zero') || name.includes('paris')) {
+                        category = 'climate';
+                    } else if (name.includes('social') || name.includes('community') || name.includes('equity')) {
+                        category = 'social';
+                    } else if (name.includes('governance') || name.includes('board') || name.includes('ethics')) {
+                        category = 'governance';
+                    } else if (name.includes('sustain') || name.includes('green')) {
+                        category = 'sustainability';
+                    } else if (name.includes('scope') || name.includes('materiality') || name.includes('esg')) {
+                        category = 'environmental';
+                    } else {
+                        category = 'environmental';
+                    }
+                } else if (domain === 'finance') {
+                    if (name.includes('bank') || name.includes('loan') || name.includes('credit')) {
+                        category = 'banking';
+                    } else if (name.includes('stock') || name.includes('bond') || name.includes('fund') || name.includes('investment')) {
+                        category = 'investment';
+                    } else if (name.includes('trade') || name.includes('trading') || name.includes('option') || name.includes('future') || 
+                               name.includes('short') || name.includes('margin') || name.includes('leverage')) {
+                        category = 'trading';
+                    } else if (name.includes('crypto') || name.includes('bitcoin') || name.includes('ethereum') || name.includes('defi')) {
+                        category = 'crypto';
+                    } else if (name.includes('swap') || name.includes('derivative') || name.includes('securitization')) {
+                        category = 'fintech';
+                    } else if (name.includes('liquidity')) {
+                        category = 'banking';
+                    } else {
+                        category = 'investment';
+                    }
+                } else {
+                    if (name.includes('ai') || name.includes('machine learning') || name.includes('neural')) {
+                        category = 'ai';
+                    } else if (name.includes('cloud') || name.includes('server') || name.includes('container')) {
+                        category = 'infrastructure';
+                    } else if (name.includes('cpu') || name.includes('gpu') || name.includes('processor')) {
+                        category = 'computing';
+                    } else if (name.includes('network') || name.includes('internet') || name.includes('protocol')) {
+                        category = 'networking';
+                    } else if (name.includes('api') || name.includes('development') || name.includes('programming')) {
+                        category = 'development';
+                    } else if (name.includes('security') || name.includes('encryption')) {
+                        category = 'security';
+                    } else if (name.includes('data') || name.includes('database')) {
+                        category = 'data';
+                    }
+                }
+                
+                const words = item.concept.split(/[\s-]+/);
+                let initials;
+                if (words.length === 1) {
+                    initials = words[0].substring(0, 2).toUpperCase();
+                } else {
+                    initials = words.slice(0, 2).map(w => w[0]).join('').toUpperCase();
+                }
+                
+                let popularity = 0;
+                for (const [keyword, score] of Object.entries(popularityScores)) {
+                    if (name.includes(keyword)) {
+                        popularity = Math.max(popularity, score);
+                    }
+                }
+                if (popularity === 0) {
+                    popularity = Math.random() * 30 + 10;
+                }
+                
+                return {
+                    id: item.concept.toLowerCase().replace(/\s+/g, '-'),
+                    name: item.concept,
+                    category: category,
+                    domain: domain,
+                    description: item.explanation || '',
+                    tldr: extractTLDR(item.explanation || ''),
+                    initials: initials,
+                    popularity: popularity
+                };
+            }).sort((a, b) => b.popularity - a.popularity);
+        }
+        
+        // Render hybrid filters
+        function renderHybridFilters() {
+            const quickContainer = document.getElementById('quickCategories');
+            const panelContainer = document.getElementById('categoryPanel');
+            
+            // Calculate category counts
+            const categoryCounts = {};
+            concepts.forEach(c => {
+                categoryCounts[c.category] = (categoryCounts[c.category] || 0) + 1;
+            });
+            
+            // Clear existing content
+            quickContainer.innerHTML = '';
+            panelContainer.innerHTML = '';
+            
+            // Add "All Fields" button
+            const allBtn = document.createElement('button');
+            allBtn.className = 'category-btn active';
+            allBtn.dataset.category = 'all';
+            allBtn.innerHTML = `<span>All Fields</span>`;
+            allBtn.addEventListener('click', () => selectCategory('all'));
+            quickContainer.appendChild(allBtn);
+            
+            // Add quick category buttons (top categories)
+            const quickCategories = Object.keys(categoryConfig)
+                .filter(key => categoryConfig[key].isQuick && key !== 'all')
+                .filter(key => categoryCounts[key] > 0);
+            
+            quickCategories.forEach(key => {
+                const btn = document.createElement('button');
+                btn.className = 'category-btn';
+                btn.dataset.category = key;
+                btn.innerHTML = `<span>${categoryConfig[key].name}</span>`;
+                btn.addEventListener('click', () => selectCategory(key));
+                quickContainer.appendChild(btn);
+            });
+            
+            // Add "More Categories" button
+            const moreBtn = document.createElement('button');
+            moreBtn.className = 'more-categories-btn';
+            moreBtn.id = 'moreCategoriesBtn';
+            moreBtn.innerHTML = `
+                <span>More Categories</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            `;
+            moreBtn.addEventListener('click', toggleCategoryPanel);
+            quickContainer.appendChild(moreBtn);
+            
+            // Build category panel by domains
+            const domains = {
+                tech: { title: 'Technology', categories: [] },
+                finance: { title: 'Finance', categories: [] },
+                esg: { title: 'ESG & Sustainability', categories: [] }
+            };
+            
+            Object.keys(categoryConfig).forEach(key => {
+                if (key !== 'all' && categoryCounts[key] > 0) {
+                    const config = categoryConfig[key];
+                    if (config.domain) {
+                        domains[config.domain].categories.push({
+                            key: key,
+                            name: config.name,
+                            count: categoryCounts[key] || 0
+                        });
+                    }
+                }
+            });
+            
+            // Render domain sections in panel
+            Object.keys(domains).forEach(domainKey => {
+                const domain = domains[domainKey];
+                if (domain.categories.length > 0) {
+                    const section = document.createElement('div');
+                    section.className = 'domain-section';
+                    
+                    const title = document.createElement('div');
+                    title.className = 'domain-title';
+                    title.textContent = domain.title;
+                    section.appendChild(title);
+                    
+                    const grid = document.createElement('div');
+                    grid.className = 'domain-categories';
+                    
+                    domain.categories.forEach(cat => {
+                        const btn = document.createElement('button');
+                        btn.className = 'panel-category-btn';
+                        btn.dataset.category = cat.key;
+                        if (cat.key === currentCategory) {
+                            btn.classList.add('active');
+                        }
+                        btn.innerHTML = `<span>${cat.name}</span>`;
+                        btn.addEventListener('click', () => {
+                            selectCategory(cat.key);
+                            toggleCategoryPanel(); // Close panel after selection
+                        });
+                        grid.appendChild(btn);
+                    });
+                    
+                    section.appendChild(grid);
+                    panelContainer.appendChild(section);
+                }
+            });
+        }
+        
+        // Toggle category panel
+        function toggleCategoryPanel() {
+            const panel = document.getElementById('categoryPanel');
+            const moreBtn = document.getElementById('moreCategoriesBtn');
+            
+            categoryPanelOpen = !categoryPanelOpen;
+            
+            if (categoryPanelOpen) {
+                panel.classList.add('visible');
+                moreBtn.classList.add('expanded');
+            } else {
+                panel.classList.remove('visible');
+                moreBtn.classList.remove('expanded');
+            }
+        }
+        
+        // Select category
+        function selectCategory(category) {
+            currentCategory = category;
+            
+            // Update all category buttons
+            document.querySelectorAll('.category-btn, .panel-category-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
+            });
+            
+            filterAndDisplay();
+        }
+        
+        // Render quick access tags
+        function renderQuickAccess() {
+            const container = document.getElementById('quickAccess');
+            container.innerHTML = '';
+            
+            const popularTerms = ['Net Zero', 'ESG', 'Leverage', 'Hedge Fund', 'API', 'Cloud', 'AI'];
+            
+            popularTerms.forEach(term => {
+                const tag = document.createElement('button');
+                tag.className = 'quick-tag';
+                tag.textContent = term;
+                tag.addEventListener('click', () => {
+                    document.getElementById('searchInput').value = term;
+                    searchTerm = term;
+                    filterAndDisplay();
+                });
+                container.appendChild(tag);
+            });
+        }
+        
+        // Filter and display concepts
+        function filterAndDisplay() {
+            let filtered = [...concepts];
+            
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(c => c.category === currentCategory);
+            }
+            
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filtered = filtered.filter(c => 
+                    c.name.toLowerCase().includes(term) ||
+                    c.description.toLowerCase().includes(term)
+                );
+            }
+            
+            filteredConcepts = filtered;
+            
+            const resultsInfo = document.getElementById('resultsInfo');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            if (searchTerm) {
+                resultsInfo.style.display = 'flex';
+                resultsCount.textContent = `Found ${filtered.length} results for "${searchTerm}"`;
+            } else {
+                resultsInfo.style.display = 'none';
+            }
+            
+            if (filtered.length === 0) {
+                document.getElementById('conceptsGrid').style.display = 'none';
+                document.getElementById('noResults').style.display = 'block';
+            } else {
+                document.getElementById('noResults').style.display = 'none';
+                displayGrid(filtered);
+            }
+        }
+        
+        // Display grid view
+        function displayGrid(concepts) {
+            const grid = document.getElementById('conceptsGrid');
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            
+            concepts.forEach(concept => {
+                const card = createCard(concept);
+                grid.appendChild(card);
+            });
+        }
+        
+        // Create card element
+        function createCard(concept) {
+            const card = document.createElement('div');
+            card.className = 'concept-card';
+            
+            const gradient = categoryConfig[concept.category]?.gradient || categoryConfig.infrastructure.gradient;
+            const hotBadge = concept.popularity > 70 ? '<span style="position: absolute; top: 10px; left: 10px; font-size: 1.2rem;">🔥</span>' : '';
+            
+            card.innerHTML = `
+                ${hotBadge}
+                <div class="concept-card-category">${categoryConfig[concept.category]?.name || 'Other'}</div>
+                <div class="concept-card-header">
+                    <div class="concept-icon" style="background: ${gradient}">${concept.initials}</div>
+                    <h3 class="concept-card-title">${concept.name}</h3>
+                </div>
+                <p class="concept-card-description">${concept.tldr}</p>
+            `;
+            
+            card.addEventListener('click', () => showQuickView(concept));
+            return card;
+        }
+        
+        // Show Unified Modal
+        function showUnifiedModal(concept, initialView = 'summary') {
+            currentConcept = concept;
+            
+            const modal = document.getElementById('unifiedModal');
+            const title = document.getElementById('unifiedModalTitle');
+            const category = document.getElementById('unifiedModalCategory');
+            const summaryText = document.getElementById('summaryText');
+            const fullView = document.getElementById('fullView');
+            
+            title.textContent = concept.name;
+            category.textContent = categoryConfig[concept.category]?.name || 'Other';
+            summaryText.textContent = concept.tldr;
+            
+            let content = concept.description || '';
+            content = content.replace(/## TL;DR\n(.+?)(\n\n---\n\n|\n\n##|$)/s, '');
+            content = content.replace(/^---\n\n/, '');
+            
+            let formatted = content
+                .replace(/^---$/gm, '<hr style="border: 0; height: 1px; background: var(--border); margin: 2rem 0;">')
+                .replace(/^#### (.+)$/gm, '<h4 style="color: var(--text); font-size: 1rem; margin: 1.2rem 0 0.6rem; font-weight: 600;">$1</h4>')
+                .replace(/^### (.+)$/gm, '<h3 style="color: var(--text); font-size: 1.1rem; margin: 1.3rem 0 0.7rem; font-weight: 600;">$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2 style="color: var(--primary); font-size: 1.25rem; margin: 1.8rem 0 0.8rem; font-weight: 700;">$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1 style="color: var(--primary); font-size: 1.4rem; margin: 2rem 0 1rem; font-weight: 700; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem;">$1</h1>')
+                .replace(/\*\*(.+?)\*\*/g, '<strong style="color: var(--primary); font-weight: 600;">$1</strong>')
+                .replace(/\*([^*]+)\*/g, '<em style="font-style: italic;">$1</em>')
+                .replace(/```[\s\S]*?```/g, (match) => {
+                    const code = match.replace(/```/g, '').trim();
+                    return `<pre style="background: var(--surface); padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; border: 1px solid var(--border);"><code style="font-family: 'Courier New', monospace; font-size: 0.9em;">${code}</code></pre>`;
+                })
+                .replace(/`([^`]+)`/g, '<code style="background: var(--surface); padding: 0.2rem 0.4rem; border-radius: 3px; font-family: monospace; font-size: 0.9em; border: 1px solid var(--border);">$1</code>')
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color: var(--primary); text-decoration: underline;" target="_blank">$1</a>')
+                .replace(/^\d+\.\s+(.+)$/gm, '<li style="margin: 0.4rem 0; line-height: 1.6;">$1</li>')
+                .replace(/^-\s+(.+)$/gm, '<li style="margin: 0.4rem 0; line-height: 1.6;">$1</li>')
+                .split('\n\n')
+                .map(section => {
+                    section = section.trim();
+                    if (!section) return '';
+                    
+                    if (/<(h[1-6]|hr|blockquote|pre|code)/i.test(section)) {
+                        return section;
+                    }
+                    
+                    if (section.includes('<li>')) {
+                        const isOrderedList = /^\d+\./.test(section.split('\n')[0]);
+                        const listType = isOrderedList ? 'ol' : 'ul';
+                        return `<${listType} style="margin: 1rem 0; padding-left: 1.8rem; color: var(--text);">${section}</${listType}>`;
+                    }
+                    
+                    if (section.trim()) {
+                        const paragraphContent = section.replace(/\n(?!$)/g, ' ').trim();
+                        return `<p style="margin: 1rem 0; line-height: 1.7; color: var(--text); text-align: justify;">${paragraphContent}</p>`;
+                    }
+                    
+                    return '';
+                })
+                .filter(section => section.trim())
+                .join('');
+            
+            fullView.innerHTML = formatted;
+            
+            if (initialView === 'summary') {
+                showSummaryView();
+            } else {
+                showFullView();
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function showSummaryView() {
+            document.getElementById('summaryView').classList.remove('hidden');
+            document.getElementById('summaryView').classList.add('visible');
+            document.getElementById('fullView').classList.remove('visible');
+            document.getElementById('fullView').classList.add('hidden');
+            
+            document.getElementById('summaryViewBtn').classList.add('active');
+            document.getElementById('fullViewBtn').classList.remove('active');
+        }
+        
+        function showFullView() {
+            document.getElementById('summaryView').classList.remove('visible');
+            document.getElementById('summaryView').classList.add('hidden');
+            document.getElementById('fullView').classList.remove('hidden');
+            document.getElementById('fullView').classList.add('visible');
+            
+            document.getElementById('fullViewBtn').classList.add('active');
+            document.getElementById('summaryViewBtn').classList.remove('active');
+        }
+        
+        function closeUnifiedModal() {
+            const modal = document.getElementById('unifiedModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            currentConcept = null;
+        }
+        
+        function showQuickView(concept) {
+            showUnifiedModal(concept, 'summary');
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            const searchInput = document.getElementById('searchInput');
+            let searchTimeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    searchTerm = e.target.value.trim();
+                    filterAndDisplay();
+                }, 300);
+            });
+            
+            // Clear search
+            const clearBtn = document.getElementById('clearSearch');
+            if (clearBtn) {
+                clearBtn.addEventListener('click', () => {
+                    searchInput.value = '';
+                    searchTerm = '';
+                    filterAndDisplay();
+                    searchInput.focus();
+                });
+            }
+            
+            // Modal controls
+            const summaryViewBtn = document.getElementById('summaryViewBtn');
+            const fullViewBtn = document.getElementById('fullViewBtn');
+            
+            summaryViewBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSummaryView();
+            });
+            
+            fullViewBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showFullView();
+            });
+            
+            const unifiedModalCloseBtn = document.getElementById('unifiedModalClose');
+            unifiedModalCloseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeUnifiedModal();
+            });
+            
+            const unifiedModal = document.getElementById('unifiedModal');
+            unifiedModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeUnifiedModal();
+                }
+            });
+            
+            // ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (document.getElementById('unifiedModal').classList.contains('active')) {
+                        closeUnifiedModal();
+                    } else if (categoryPanelOpen) {
+                        toggleCategoryPanel();
+                    }
+                }
+            });
+        }
+        
+        // Initialize app
+        init();
+    </script>
+</body>
+</html>
